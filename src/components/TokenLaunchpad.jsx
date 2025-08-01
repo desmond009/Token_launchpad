@@ -10,10 +10,15 @@ export function TokenLaunchpad() {
 
 
     async function createToken() {
+        const name = document.getElementById('name').value;
+        const symbol = document.getElementById('symbol').value;
+        const image = document.getElementById('image').value;
+        const supply = document.getElementById('supply').value;
+
         const mintKeypair = Keypair.generate();
         const lamports = await getMinimumBalanceForRentExemptMint(connection);
 
-        const transaction = new Transaction().add(
+        const transaction  = new Transaction().add(
             SystemProgram.createAccount({
                 fromPubkey: wallet.publicKey,
                 newAccountPubkey: mintKeypair.publicKey,
@@ -30,7 +35,7 @@ export function TokenLaunchpad() {
 
         await wallet.sendTransaction(transaction, connection);
         console.log(`Token mint created at ${mintKeypair.publicKey.toBase58()}`);
-    }
+    } 
 
 
 
@@ -42,10 +47,10 @@ export function TokenLaunchpad() {
         flexDirection: 'column'
     }}>
         <h1>Solana Token Launchpad</h1>
-        <input className='inputText' type='text' placeholder='Name'></input> <br />
-        <input className='inputText' type='text' placeholder='Symbol'></input> <br />
-        <input className='inputText' type='text' placeholder='Image URL'></input> <br />
-        <input className='inputText' type='text' placeholder='Initial Supply'></input> <br />
+        <input id='name' className='inputText' type='text' placeholder='Name'></input> <br />
+        <input id='symbol' className='inputText' type='text' placeholder='Symbol'></input> <br />
+        <input id='image' className='inputText' type='text' placeholder='Image URL'></input> <br />
+        <input id='supply' className='inputText' type='text' placeholder='Initial Supply'></input> <br />
         <button onClick={createToken} className='btn'>Create a token</button>
     </div>
 }
